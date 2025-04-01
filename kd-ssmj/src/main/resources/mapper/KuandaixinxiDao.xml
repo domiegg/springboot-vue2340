@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dao.KuandaixinxiDao">
+
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        a.id as id
+        ,a.yh_types as yhTypes
+        ,a.family as family
+        ,a.number as number
+        ,a.kd_types as kdTypes
+        ,a.create_time as createTime
+        ,a.mariadb_types as mariadbTypes
+    </sql>
+
+    <select id="selectListView" parameterType="map" resultType="com.entity.view.KuandaixinxiView" >
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM Kuandaixinxi  a
+        <where>
+            <if test=" params.yhTypes != '' and params.yhTypes != null and params.yhTypes != 'null' ">
+                and a.yh_types = #{params.yhTypes}
+            </if>
+            <if test=" params.family != '' and params.family != null and params.family != 'null' ">
+                and a.family like CONCAT('%',#{params.family},'%')
+            </if>
+            <if test=" params.number != '' and params.number != null and params.number != 'null' ">
+                and a.number like CONCAT('%',#{params.number},'%')
+            </if>
+            <if test=" params.kdTypes != '' and params.kdTypes != null and params.kdTypes != 'null' ">
+                and a.kd_types = #{params.kdTypes}
+            </if>
+            <if test=" params.mariadbTypes != '' and params.mariadbTypes != null and params.mariadbTypes != 'null' ">
+                and a.mariadb_types = #{params.mariadbTypes}
+            </if>
+            <if test=" params.yh != '' and params.yh != null">
+                and a.yh_types = #{params.yh}
+            </if>
+        </where>
+        order by a.id desc
+    </select>
+
+</mapper>
